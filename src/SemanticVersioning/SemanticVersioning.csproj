@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<PackageId>tetri.net.SemanticVersioning</PackageId>
+		<Version>0.0.1</Version>
+		<Authors>Tetri Mesquita</Authors>
+		<Description>Implementação de versionamento semântico (SemVer 2.0.0) em C# com suporte a parsing, comparação e operadores.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/tetri/SemanticVersioning</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/tetri/SemanticVersioning.git</RepositoryUrl>
+		<PackageTags>semver versioning semantic-version</PackageTags>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+</Project>
