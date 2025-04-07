@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace SemanticVersioning
 {
+    [JsonConverter(typeof(SemanticVersionConverter))]
     public readonly struct SemanticVersion : IComparable<SemanticVersion>, IEquatable<SemanticVersion>
     {
         public int Major { get; }
@@ -14,6 +17,15 @@ namespace SemanticVersioning
         private static readonly Regex VersionRegex = new Regex(
             @"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][a-zA-Z0-9-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][a-zA-Z0-9-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$",
             RegexOptions.Compiled);
+
+        public SemanticVersion()
+        {
+            Major = 0;
+            Minor = 0;
+            Patch = 0;
+            Prerelease = string.Empty;
+            Build = string.Empty;
+        }
 
         public SemanticVersion(string version)
         {
@@ -73,27 +85,40 @@ namespace SemanticVersioning
             if (string.IsNullOrEmpty(left)) return 1;
             if (string.IsNullOrEmpty(right)) return -1;
 
-            var leftIdentifiers = left.Split('.');
-            var rightIdentifiers = right.Split('.');
+            var leftParts = left.Split('.');
+            var rightParts = right.Split('.');
 
-            for (int i = 0; i < Math.Min(leftIdentifiers.Length, rightIdentifiers.Length); i++)
+            int minLength = Math.Min(leftParts.Length, rightParts.Length);
+            for (int i = 0; i < minLength; i++)
             {
-                var leftId = leftIdentifiers[i];
-                var rightId = rightIdentifiers[i];
+                string leftPart = leftParts[i];
+                string rightPart = rightParts[i];
 
-                if (int.TryParse(leftId, out var leftNum) && int.TryParse(rightId, out var rightNum))
+                bool leftIsNumeric = int.TryParse(leftPart, out int leftNum);
+                bool rightIsNumeric = int.TryParse(rightPart, out int rightNum);
+
+                if (leftIsNumeric && rightIsNumeric)
                 {
-                    var comparison = leftNum.CompareTo(rightNum);
+                    int comparison = leftNum.CompareTo(rightNum);
                     if (comparison != 0) return comparison;
+                }
+                else if (leftIsNumeric)
+                {
+                    return -1;
+                }
+                else if (rightIsNumeric)
+                {
+                    return 1;
                 }
                 else
                 {
-                    var comparison = string.Compare(leftId, rightId, StringComparison.Ordinal);
-                    if (comparison != 0) return comparison;
+                    int comparison = string.Compare(leftPart, rightPart, StringComparison.Ordinal);
+                    if (comparison != 0)
+                        return comparison < 0 ? -1 : 1;
                 }
             }
 
-            return leftIdentifiers.Length.CompareTo(rightIdentifiers.Length);
+            return leftParts.Length.CompareTo(rightParts.Length);
         }
 
         public bool Equals(SemanticVersion other) => CompareTo(other) == 0;
@@ -123,5 +148,19 @@ namespace SemanticVersioning
         public static bool operator >(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) > 0;
         public static bool operator <=(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) <= 0;
         public static bool operator >=(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) >= 0;
+    }
+
+    public class SemanticVersionConverter : JsonConverter<SemanticVersion>
+    {
+        public override SemanticVersion Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var versionString = reader.GetString();
+            return new SemanticVersion(versionString);
+        }
+
+        public override void Write(Utf8JsonWriter writer, SemanticVersion value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString());
+        }
     }
 }
