@@ -1,0 +1,52 @@
+name: Publish Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Install MinVer
+      run: dotnet restore
+
+    - name: Verify Tag Format
+      id: verify-tag
+      run: |
+        if [[ ! ${{ github.ref_name }} =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9\.-]+)?$ ]]; then
+          echo "::error::Tag ${{ github.ref_name }} não segue o padrão SemVer (vX.Y.Z ou vX.Y.Z-prerelease)"
+          exit 1
+        fi
+
+    - name: Pack
+      run: dotnet pack --configuration Release -p:ContinuousIntegrationBuild=true --output ./artifacts
+
+    - name: Verify Package Version
+      run: |
+        PACKAGE_VERSION=$(ls ./artifacts/*.nupkg | grep -oP '\d+\.\d+\.\d+(-[a-zA-Z0-9\.-]+)?')
+        TAG_VERSION=${GITHUB_REF#refs/tags/v}
+        if [ "$PACKAGE_VERSION" != "$TAG_VERSION" ]; then
+          echo "::error::Versão do pacote ($PACKAGE_VERSION) não corresponde à tag ($TAG_VERSION)"
+          exit 1
+        fi
+
+    - name: Publish to GitHub Packages
+      run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      
+    - name: Publish to NuGet
+      run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

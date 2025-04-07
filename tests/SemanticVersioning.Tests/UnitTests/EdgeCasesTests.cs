@@ -7,7 +7,8 @@ namespace SemanticVersioning.Tests.UnitTests
         [Fact]
         public void DefaultConstructor_CreatesVersion0_0_0()
         {
-            var version = default(SemanticVersion);
+            var version = new SemanticVersion();
+
             Assert.Equal(0, version.Major);
             Assert.Equal(0, version.Minor);
             Assert.Equal(0, version.Patch);
