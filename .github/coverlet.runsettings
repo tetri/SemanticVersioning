@@ -6,6 +6,7 @@
         <Configuration>
           <Format>cobertura</Format>
           <Include>[SemanticVersioning]*</Include>
+          <ExcludeByFile>**/obj/**/*.cs,**/bin/**/*.cs</ExcludeByFile>
         </Configuration>
       </DataCollector>
     </DataCollectors>
