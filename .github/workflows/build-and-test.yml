@@ -21,3 +21,6 @@ jobs:
 
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+
+    - name: Test with Coverage
+      run: dotnet test --collect:"XPlat Code Coverage" --settings ../coverlet.runsettings
