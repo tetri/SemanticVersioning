@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<LangVersion>10.0</LangVersion>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<PackageId>tetri.net.SemanticVersioning</PackageId>
 		<Version>0.0.2</Version>
 		<Authors>Tetri Mesquita</Authors>
@@ -25,6 +25,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="System.Text.Json" Version="9.0.3" />
-		<PackageReference Include="MinVer" Version="4.3.0" PrivateAssets="all" />
+		<PackageReference Include="MinVer" Version="6.0.0" PrivateAssets="all" />
 	</ItemGroup>
 </Project>
