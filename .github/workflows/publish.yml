@@ -3,7 +3,7 @@ name: Publish Package
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*'  # Dispara quando tags no formato vX.Y.Z s√£o criadas
 
 jobs:
   publish:
@@ -15,33 +15,39 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 0
+        fetch-depth: 0  # Necess√°rio para o MinVer verificar o hist√≥rico de tags
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '9.0.x'
 
-    - name: Install MinVer
+    - name: Install dependencies
       run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
 
     - name: Verify Tag Format
       id: verify-tag
       run: |
         if [[ ! ${{ github.ref_name }} =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9\.-]+)?$ ]]; then
-          echo "::error::Tag ${{ github.ref_name }} n„o segue o padr„o SemVer (vX.Y.Z ou vX.Y.Z-prerelease)"
+          echo "::error::Tag ${{ github.ref_name }} n√£o segue o padr√£o SemVer (vX.Y.Z ou vX.Y.Z-prerelease)"
           exit 1
         fi
 
+    - name: Run Tests (opcional, mas recomendado)
+      run: dotnet test --configuration Release --no-build
+
     - name: Pack
-      run: dotnet pack --configuration Release -p:ContinuousIntegrationBuild=true --output ./artifacts
+      run: dotnet pack --configuration Release --no-build -p:ContinuousIntegrationBuild=true --output ./artifacts
 
     - name: Verify Package Version
       run: |
         PACKAGE_VERSION=$(ls ./artifacts/*.nupkg | grep -oP '\d+\.\d+\.\d+(-[a-zA-Z0-9\.-]+)?')
         TAG_VERSION=${GITHUB_REF#refs/tags/v}
         if [ "$PACKAGE_VERSION" != "$TAG_VERSION" ]; then
-          echo "::error::Vers„o do pacote ($PACKAGE_VERSION) n„o corresponde ‡ tag ($TAG_VERSION)"
+          echo "::error::Vers√£o do pacote ($PACKAGE_VERSION) n√£o corresponde √† tag ($TAG_VERSION)"
           exit 1
         fi
 
