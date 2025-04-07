@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -6,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace SemanticVersioning
 {
     [JsonConverter(typeof(SemanticVersionConverter))]
-    public readonly struct SemanticVersion : IComparable<SemanticVersion>, IEquatable<SemanticVersion>
+    public readonly struct SemanticVersion : IComparable<SemanticVersion>, IEquatable<SemanticVersion>, IComparer<SemanticVersion>
     {
         public int Major { get; }
         public int Minor { get; }
@@ -140,6 +141,11 @@ namespace SemanticVersioning
                 return hash;
             }
 #endif
+        }
+
+        public int Compare(SemanticVersion x, SemanticVersion y)
+        {
+            return x.CompareTo(y);
         }
 
         public static bool operator ==(SemanticVersion left, SemanticVersion right) => left.Equals(right);
