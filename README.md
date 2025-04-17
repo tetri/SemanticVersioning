@@ -4,6 +4,7 @@
 [![NuGet Downloads](https://img.shields.io/nuget/dt/tetri.net.SemanticVersioning.svg?style=flat-square)](https://www.nuget.org/packages/tetri.net.SemanticVersioning/)
 [![License](https://img.shields.io/github/license/tetri/SemanticVersioning.svg?style=flat-square)](LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/tetri/SemanticVersioning/publish.yml?style=flat-square)](https://github.com/tetri/SemanticVersioning/actions)
+[![AppVeyor Build Status](https://img.shields.io/appveyor/build/tetri/semanticversioning?style=flat-square&logo=appveyor)](https://ci.appveyor.com/project/tetri/semanticversioning)
 
 A robust [Semantic Versioning 2.0.0](https://semver.org/) implementation for .NET with full support for parsing, comparison, and version operations.
 
