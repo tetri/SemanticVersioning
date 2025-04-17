@@ -18,10 +18,12 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<MinVerTagPrefix>v</MinVerTagPrefix>
 		<RestorePackagesDuringBuild>true</RestorePackagesDuringBuild>
+		<PackageIcon>logo.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\..\logo.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 	<ItemGroup>
