@@ -129,7 +129,7 @@ namespace SemanticVersioning
         public override int GetHashCode()
         {
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-    return HashCode.Combine(Major, Minor, Patch, Prerelease);
+            return HashCode.Combine(Major, Minor, Patch, Prerelease);
 #else
             unchecked
             {
