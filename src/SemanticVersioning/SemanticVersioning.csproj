@@ -17,6 +17,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<MinVerTagPrefix>v</MinVerTagPrefix>
+		<RestorePackagesDuringBuild>true</RestorePackagesDuringBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
