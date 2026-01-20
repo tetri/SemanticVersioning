@@ -15,5 +15,11 @@ namespace SemanticVersioning.Tests.UnitTests
 
             Assert.Equal(original, deserialized);
         }
+
+        [Fact]
+        public void Deserialize_Null_ThrowsJsonException()
+        {
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<SemanticVersion>("null"));
+        }
     }
 }
