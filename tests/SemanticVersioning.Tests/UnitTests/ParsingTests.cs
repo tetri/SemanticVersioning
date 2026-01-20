@@ -43,5 +43,29 @@ namespace SemanticVersioning.Tests.UnitTests
         {
             Assert.Throws<ArgumentException>(() => new SemanticVersion(invalidVersion));
         }
+
+        [Theory]
+        [InlineData("1.0.0-01")]
+        [InlineData("1.0.0-alpha.01")]
+        public void Parse_InvalidPrereleaseLeadingZero_ThrowsException(string invalidVersion)
+        {
+            Assert.Throws<ArgumentException>(() => new SemanticVersion(invalidVersion));
+        }
+
+        [Fact]
+        public void Parse_Null_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new SemanticVersion(null!));
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\t")]
+        [InlineData("\r\n")]
+        public void Parse_Whitespace_ThrowsArgumentException(string invalidVersion)
+        {
+            Assert.Throws<ArgumentException>(() => new SemanticVersion(invalidVersion));
+        }
     }
 }

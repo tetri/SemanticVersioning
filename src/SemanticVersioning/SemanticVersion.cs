@@ -30,6 +30,16 @@ namespace SemanticVersioning
 
         public SemanticVersion(string version)
         {
+            if (version is null)
+            {
+                throw new ArgumentNullException(nameof(version));
+            }
+
+            if (string.IsNullOrWhiteSpace(version))
+            {
+                throw new ArgumentException("Invalid semantic version format", nameof(version));
+            }
+
             var match = VersionRegex.Match(version);
             if (!match.Success)
             {
@@ -160,7 +170,17 @@ namespace SemanticVersioning
     {
         public override SemanticVersion Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+            {
+                throw new JsonException("Cannot deserialize null into SemanticVersion.");
+            }
+
             var versionString = reader.GetString();
+            if (versionString is null)
+            {
+                throw new JsonException("Invalid SemanticVersion JSON value.");
+            }
+
             return new SemanticVersion(versionString);
         }
 
