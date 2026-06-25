@@ -3,8 +3,10 @@
 [![NuGet Version](https://img.shields.io/nuget/v/tetri.net.SemanticVersioning.svg?style=flat-square&logo=nuget)](https://www.nuget.org/packages/tetri.net.SemanticVersioning/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/tetri.net.SemanticVersioning.svg?style=flat-square&logo=nuget)](https://www.nuget.org/packages/tetri.net.SemanticVersioning/)
 [![License](https://img.shields.io/github/license/tetri/SemanticVersioning.svg?style=flat-square&logo=github)](LICENSE)
-[![Github Build Status](https://img.shields.io/github/actions/workflow/status/tetri/SemanticVersioning/publish.yml?style=flat-square&logo=github)](https://github.com/tetri/SemanticVersioning/actions)
+[![Build](https://img.shields.io/github/actions/workflow/status/tetri/SemanticVersioning/build-and-test.yml?style=flat-square&logo=github&label=build)](https://github.com/tetri/SemanticVersioning/actions/workflows/build-and-test.yml)
+[![Publish](https://img.shields.io/github/actions/workflow/status/tetri/SemanticVersioning/publish.yml?style=flat-square&logo=nuget&label=publish)](https://github.com/tetri/SemanticVersioning/actions/workflows/publish.yml)
 [![AppVeyor Build Status](https://img.shields.io/appveyor/build/tetri/semanticversioning?style=flat-square&logo=appveyor)](https://ci.appveyor.com/project/tetri/semanticversioning)
+[![Conventional Commits](https://img.shields.io/badge/conventional%20commits-1.0.0-%23FE5196?style=flat-square&logo=git)](https://www.conventionalcommits.org)
 
 A robust [Semantic Versioning 2.0.0](https://semver.org/) implementation for .NET with full support for parsing, comparison, and version operations.
 
@@ -19,7 +21,7 @@ dotnet add package tetri.net.SemanticVersioning
 Or add directly to your `.csproj`:
 
 ```xml
-<PackageReference Include="tetri.net.SemanticVersioning" Version="1.0.0" />
+<PackageReference Include="tetri.net.SemanticVersioning" Version="0.2.2" />
 ```
 
 ## 🚀 Quick Start
@@ -84,15 +86,43 @@ var v2 = new SemanticVersion("1.0.0+build.2");
 Console.WriteLine(v1 == v2); // True - build metadata doesn't affect equality
 ```
 
+## 🛠️ Development
+
+### Prerequisites
+
+- [.NET 9.0 SDK](https://dotnet.microsoft.com/download) or later
+- Git
+
+### Setup
+
+```bash
+git clone https://github.com/tetri/SemanticVersioning.git
+cd SemanticVersioning
+
+# Enable commit hooks
+dotnet tool restore 2>$null
+git config core.hooksPath .githooks
+
+# Build and test
+dotnet build
+dotnet test
+```
+
+### Conventional commits
+
+This project enforces [Conventional Commits](https://www.conventionalcommits.org/).
+
+```
+type(optional-scope): description
+
+Valid types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+```
+
+The `.githooks/commit-msg` hook validates every commit locally. Pull requests are also validated in CI.
+
 ## 🤝 Contributing
 
-We welcome contributions! Please follow these steps:
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+We welcome contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for full guidelines.
 
 ## 📄 License
 

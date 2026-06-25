@@ -2,20 +2,23 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+The latest published NuGet package receives security updates. Older versions are not actively patched — please upgrade to the latest release.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| Version | Supported |
+| ------- | --------- |
+| >= 0.2  | ✅ Yes |
+| < 0.2   | ❌ No |
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+If you discover a security vulnerability, **do not** open a public issue. Please report it privately via email:
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+**security@tetri.net**
+
+You can expect an acknowledgment within 48 hours and a status update within 5 business days. Once the issue is triaged, we will work on a fix and publish a new release as soon as possible.
+
+## Preferred Process
+
+1. Report the vulnerability via email.
+2. Allow time for triage and patch development.
+3. Once the fix is released, we will credit the reporter (if desired) in the release notes.
