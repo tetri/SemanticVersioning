@@ -11,6 +11,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write  # Necessário para Trusted Publishing no NuGet.org
 
     steps:
     - uses: actions/checkout@v4
@@ -57,5 +58,5 @@ jobs:
     - name: Publish to GitHub Packages
       run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       
-    - name: Publish to NuGet
-      run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+    - name: Publish to NuGet (Trusted Publishing)
+      run: dotnet nuget push ./artifacts/*.nupkg --source https://api.nuget.org/v3/index.json
