@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<LangVersion>10.0</LangVersion>
-		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>11.0</LangVersion>
+		<TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+		<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+		<Nullable>enable</Nullable>
 		<PackageId>tetri.net.SemanticVersioning</PackageId>
-		<Version>0.0.2</Version>
 		<Authors>Tetri Mesquita</Authors>
 		<Description>Implementação de versionamento semântico (SemVer 2.0.0) em C# com suporte a parsing, comparação e operadores.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>

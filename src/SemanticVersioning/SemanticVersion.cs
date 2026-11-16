@@ -134,7 +134,7 @@ namespace SemanticVersioning
 
         public bool Equals(SemanticVersion other) => CompareTo(other) == 0;
 
-        public override bool Equals(object obj) => obj is SemanticVersion other && Equals(other);
+        public override bool Equals(object? obj) => obj is SemanticVersion other && Equals(other);
 
         public override int GetHashCode()
         {
